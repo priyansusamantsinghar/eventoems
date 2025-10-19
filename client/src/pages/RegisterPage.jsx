@@ -2,6 +2,7 @@
 import { Link, Navigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+import { message } from "antd";
 
 export default function RegisterPage() {
   const [name, setName] = useState('');
@@ -15,7 +16,7 @@ export default function RegisterPage() {
     ev.preventDefault();
 
     if (password !== confirmPassword) {
-      alert('Passwords do not match');
+      message.error('Passwords do not match');
       return;
     }
 
@@ -26,10 +27,10 @@ export default function RegisterPage() {
         password,
         
       });
-      alert('Registration Successful')
-      setRedirect(true)
+      message.success('Registration Successful! Redirecting to login...');
+      setTimeout(() => setRedirect(true), 1500);
     }catch(e){
-      alert('Registration failed')
+      message.error('Registration failed. Please try again.');
     }
   }
 

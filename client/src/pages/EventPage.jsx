@@ -5,6 +5,7 @@ import { Link, useParams } from "react-router-dom"
 import { AiFillCalendar } from "react-icons/ai";
 import { MdLocationPin } from "react-icons/md";
 import { FaCopy, FaWhatsappSquare, FaFacebook } from "react-icons/fa";
+import { message } from "antd";
 
 export default function EventPage() {
   const {id} = useParams();
@@ -26,7 +27,7 @@ export default function EventPage() {
   const handleCopyLink = () => {
     const linkToShare = window.location.href;
     navigator.clipboard.writeText(linkToShare).then(() => {
-      alert('Link copied to clipboard!');
+      message.success('Link copied to clipboard!');
     });
   };
 

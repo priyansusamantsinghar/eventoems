@@ -100,6 +100,30 @@ app.get("/profile", (req, res) => {
    }
 });
 
+// Get detailed user profile information
+app.get("/user/profile", (req, res) => {
+   const { token } = req.cookies;
+   if (token) {
+      jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+         if (err) {
+            return res.status(401).json({ error: "Invalid token" });
+         }
+         try {
+            const userDetails = await UserModel.findById(userData.id);
+            if (!userDetails) {
+               return res.status(404).json({ error: "User not found" });
+            }
+            res.json(userDetails);
+         } catch (error) {
+            console.error("Error fetching user details:", error);
+            res.status(500).json({ error: "Failed to fetch user details" });
+         }
+      });
+   } else {
+      res.status(401).json({ error: "No token provided" });
+   }
+});
+
 app.post("/logout", (req, res) => {
    res.cookie("token", "").json(true);
 });
@@ -136,19 +160,19 @@ const Event = mongoose.model("Event", eventSchema);
 //    }
 // });
 app.post("/createEvent", upload.single("image"), async (req, res) => {
-  try {
-    const eventData = req.body;
+   try {
+      const eventData = req.body;
 
-    // Save the uploaded file path if an image is uploaded
-    eventData.image = req.file ? `../../../uploads/${req.file.filename}` : "";
+      // Save the uploaded file path if an image is uploaded
+      eventData.image = req.file ? `../../../uploads/${req.file.filename}` : "";
 
-    const newEvent = new Event(eventData);
-    await newEvent.save();
-    res.status(201).json(newEvent);
-  } catch (error) {
-    console.error("Error saving event:", error);
-    res.status(500).json({ error: "Failed to save the event to MongoDB" });
-  }
+      const newEvent = new Event(eventData);
+      await newEvent.save();
+      res.status(201).json(newEvent);
+   } catch (error) {
+      console.error("Error saving event:", error);
+      res.status(500).json({ error: "Failed to save the event to MongoDB" });
+   }
 });
 
 app.get("/createEvent", async (req, res) => {

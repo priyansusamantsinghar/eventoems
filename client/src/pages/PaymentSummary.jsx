@@ -5,6 +5,7 @@ import { Link, Navigate, useParams } from 'react-router-dom';
 import {IoMdArrowBack} from 'react-icons/io'
 import { UserContext } from '../UserContext';
 import Qrcode from 'qrcode' //TODO:
+import { message } from "antd";
 
 export default function PaymentSummary() {
     const {id} = useParams();
@@ -113,8 +114,8 @@ export default function PaymentSummary() {
     };
 //!posting the details to backend ----------------------------
     const response = await axios.post(`/tickets`, updatedTicketDetails);
-    alert("Ticket Created");
-    setRedirect(true)
+    message.success("Ticket Created Successfully!");
+    setTimeout(() => setRedirect(true), 1500);
     console.log('Success creating ticket', updatedTicketDetails)
   } catch (error) {
     console.error('Error creating ticket:', error);

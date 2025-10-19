@@ -4,6 +4,7 @@ import {RiDeleteBinLine} from 'react-icons/ri'
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { UserContext } from "../UserContext";
+import { message } from "antd";
 
 export default function TicketPage() {
     const {user} = useContext(UserContext);
@@ -31,9 +32,10 @@ export default function TicketPage() {
         await axios.delete(`/tickets/${ticketId}`); 
         
         fetchTickets();
-        alert('Ticket Deleted');
+        message.success('Ticket Deleted Successfully');
       } catch (error) {
         console.error('Error deleting ticket:', error);
+        message.error('Failed to delete ticket');
       }
     }
   

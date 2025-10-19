@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react'
 import { Link, Navigate } from 'react-router-dom'
 import axios from 'axios'
 import { UserContext } from '../UserContext'
+import { message } from "antd";
 
 
 export default function LoginPage() {
@@ -30,7 +31,7 @@ export default function LoginPage() {
       try{
         const {data} = await axios.post('/login', {email, password})
         setUser(data);
-        alert('Login success');
+        message.success('Login successful! Welcome back!');
 
         if (rememberMe) {
           // If the user checked, store their email in localStorage.
@@ -41,9 +42,9 @@ export default function LoginPage() {
           localStorage.removeItem('rememberedEmail');
         }
 
-        setRedirect(true)
+        setTimeout(() => setRedirect(true), 1500);
       }catch(e){
-        alert('Login failed');
+        message.error('Login failed. Please check your credentials.');
       }
   }
 
