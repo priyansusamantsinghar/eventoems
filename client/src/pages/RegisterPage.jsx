@@ -5,37 +5,35 @@ import axios from "axios";
 import { message } from "antd";
 
 export default function RegisterPage() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [redirect, setRedirect] = useState('');
-  
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [redirect, setRedirect] = useState("");
 
-  async function registerUser(ev){
+  async function registerUser(ev) {
     ev.preventDefault();
 
     if (password !== confirmPassword) {
-      message.error('Passwords do not match');
+      message.error("Passwords do not match");
       return;
     }
 
-    try{
-      await axios.post('/register', {
+    try {
+      await axios.post("/register", {
         name,
         email,
         password,
-        
       });
-      message.success('Registration Successful! Redirecting to login...');
+      message.success("Registration Successful! Redirecting to login...");
       setTimeout(() => setRedirect(true), 1500);
-    }catch(e){
-      message.error('Registration failed. Please try again.');
+    } catch (e) {
+      message.error("Registration failed. Please try again.");
     }
   }
 
-  if (redirect){
-    return <Navigate to={'/login'} />
+  if (redirect) {
+    return <Navigate to={"/login"} />;
   }
 
   return (
@@ -53,7 +51,7 @@ export default function RegisterPage() {
         </div>
 
         <div className="ml-48 w-80 mt-6">
-          <img src="../src/assets/signuppic.svg" alt="" className="w-full" />
+          <img src="../assets/signuppic.svg" alt="" className="w-full" />
         </div>
       </div>
       <div className="bg-white w-full sm:w-full md:w-1/2 lg:w-1/3 px-7 py-7 rounded-xl justify-center align-middle ">

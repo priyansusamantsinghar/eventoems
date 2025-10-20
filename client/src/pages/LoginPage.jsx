@@ -1,57 +1,54 @@
-import { useContext, useEffect, useState } from 'react'
-import { Link, Navigate } from 'react-router-dom'
-import axios from 'axios'
-import { UserContext } from '../UserContext'
+import { useContext, useEffect, useState } from "react";
+import { Link, Navigate } from "react-router-dom";
+import axios from "axios";
+import { UserContext } from "../UserContext";
 import { message } from "antd";
 
-
 export default function LoginPage() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [redirect, setRedirect] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [redirect, setRedirect] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
-  const {setUser} = useContext(UserContext);
-
+  const { setUser } = useContext(UserContext);
 
   //! Fetch users from the server --------------------------------------------------------------
   useEffect(() => {
-    const storedEmail = localStorage.getItem('rememberedEmail');
-    const storedPass = localStorage.getItem('rememberedpass')
+    const storedEmail = localStorage.getItem("rememberedEmail");
+    const storedPass = localStorage.getItem("rememberedpass");
     if (storedEmail) {
       setEmail(storedEmail);
       setPassword(storedPass);
     }
   }, []);
 
+  async function loginUser(ev) {
+    ev.preventDefault();
 
-  async function loginUser(ev){
-      ev.preventDefault();
+    try {
+      const { data } = await axios.post("/login", { email, password });
+      setUser(data);
+      message.success("Login successful! Welcome back!");
 
-      try{
-        const {data} = await axios.post('/login', {email, password})
-        setUser(data);
-        message.success('Login successful! Welcome back!');
-
-        if (rememberMe) {
-          // If the user checked, store their email in localStorage.
-          localStorage.setItem('rememberedEmail', email);
-          localStorage.setItem('rememberedpass', password);
-        } else {
-          // If the user didnt checked, remove their email from localStorage.
-          localStorage.removeItem('rememberedEmail');
-        }
-
-        setTimeout(() => setRedirect(true), 1500);
-      }catch(e){
-        message.error('Login failed. Please check your credentials.');
+      if (rememberMe) {
+        // If the user checked, store their email in localStorage.
+        localStorage.setItem("rememberedEmail", email);
+        localStorage.setItem("rememberedpass", password);
+      } else {
+        // If the user didnt checked, remove their email from localStorage.
+        localStorage.removeItem("rememberedEmail");
       }
+
+      setTimeout(() => setRedirect(true), 1500);
+    } catch (e) {
+      message.error("Login failed. Please check your credentials.");
+    }
   }
 
-  if(redirect){
-    return <Navigate to={'/'}/>
+  if (redirect) {
+    return <Navigate to={"/"} />;
   }
-  
+
   return (
     <div className="flex w-full h-full lg:ml-24 px-10 py-10 justify-between place-items-center mt-20">
       <div className="bg-white w-full sm:w-full md:w-1/2 lg:w-1/3 px-7 py-7 rounded-xl justify-center align-middle">
@@ -221,7 +218,7 @@ export default function LoginPage() {
         </div>
 
         <div className="-ml-48 w-80 mt-12">
-          <img src="../src/assets/signinpic.svg" alt="" className="w-full" />
+          <img src="../assets/signinpic.svg" alt="" className="w-full" />
         </div>
       </div>
     </div>

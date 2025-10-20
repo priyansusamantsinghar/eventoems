@@ -51,7 +51,7 @@ export default function IndexPage() {
         <div className="hidden sm:block">
           <div className="relative h-[400px] overflow-hidden">
             <img
-              src="../src/assets/Hero1.jpg"
+              src="../assets/Hero1.jpg"
               alt="Event Management Platform"
               className="w-full h-full object-cover object-center"
             />
@@ -127,7 +127,7 @@ export default function IndexPage() {
                     {/* Event Image */}
                     <div className="relative h-48 overflow-hidden">
                       <img
-                        src="../src/assets/PartyImg.jpg"
+                        src="../assets/PartyImg.jpg"
                         alt={event.title}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                       />

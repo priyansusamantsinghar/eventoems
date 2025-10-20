@@ -1,33 +1,36 @@
 import axios from "axios";
 
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom";
 import { AiFillCalendar } from "react-icons/ai";
 import { MdLocationPin } from "react-icons/md";
 import { FaCopy, FaWhatsappSquare, FaFacebook } from "react-icons/fa";
 import { message } from "antd";
 
 export default function EventPage() {
-  const {id} = useParams();
+  const { id } = useParams();
   const [event, setEvent] = useState(null);
 
   //! Fetching the event data from server by ID ------------------------------------------
-  useEffect(()=>{
-    if(!id){
+  useEffect(() => {
+    if (!id) {
       return;
     }
-    axios.get(`/event/${id}`).then(response => {
-      setEvent(response.data)
-    }).catch((error) => {
-      console.error("Error fetching events:", error);
-    });
-  }, [id])
+    axios
+      .get(`/event/${id}`)
+      .then((response) => {
+        setEvent(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching events:", error);
+      });
+  }, [id]);
 
   //! Copy Functionalities -----------------------------------------------
   const handleCopyLink = () => {
     const linkToShare = window.location.href;
     navigator.clipboard.writeText(linkToShare).then(() => {
-      message.success('Link copied to clipboard!');
+      message.success("Link copied to clipboard!");
     });
   };
 
@@ -39,11 +42,13 @@ export default function EventPage() {
 
   const handleFacebookShare = () => {
     const linkToShare = window.location.href;
-    const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(linkToShare)}`;
+    const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+      linkToShare
+    )}`;
     window.open(facebookShareUrl);
   };
-  
-if (!event) return '';
+
+  if (!event) return "";
   return (
     <div className="flex flex-col mx-5 xl:mx-32 md:mx-10 mt-5 flex-grow">
       <div>
@@ -51,7 +56,7 @@ if (!event) return '';
           <img src={`${event.image}`} alt="" height="500px" width="1440px" className='rounded object-fill aspect-16:9'/>
         )} */}
         <img
-          src="../src/assets/PartyImg.jpg"
+          src="../assets/PartyImg.jpg"
           alt=""
           height="500px"
           width="1440px"
