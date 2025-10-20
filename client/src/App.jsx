@@ -18,7 +18,7 @@ import PaymentSummary from "./pages/PaymentSummary";
 import TicketPage from "./pages/TicketPage";
 import CreatEvent from "./pages/CreateEvent";
 
-axios.defaults.baseURL = "https://eventoems-lnea.onrender.com";
+axios.defaults.baseURL = "https://eventoems-1.onrender.com";
 axios.defaults.withCredentials = true;
 
 function App() {
